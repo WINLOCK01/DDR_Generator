@@ -1,0 +1,75 @@
+# ── Python ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual Environments ────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+.env/
+
+# ── Environment Variables (secrets) ────────────────────────────────────────────
+.env
+*.env.local
+*.env.*.local
+# Keep the example file
+!.env.example
+
+# ── Extracted & Generated Images ───────────────────────────────────────────────
+extracted_images/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.bmp
+*.gif
+*.tiff
+# Keep template assets if any
+!templates/assets/**
+
+# ── Generated Reports (output files) ───────────────────────────────────────────
+*.pdf
+*.html
+# Keep the Jinja2 template itself
+!templates/*.html
+
+# ── Checkpoints & Cache ─────────────────────────────────────────────────────────
+.cache/
+*.json
+# Keep schema examples if present
+!schemas/examples/*.json
+
+# ── Test Files & Pytest Artifacts ──────────────────────────────────────────────
+tests/
+test_*.py
+*.test.py
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── Legacy & Scratch Files ──────────────────────────────────────────────────────
+legacy/
+/tmp/
+*.tmp
+*.bak
+
+# ── IDE & OS ────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# ── Playwright Driver (large binary) ───────────────────────────────────────────
+**/playwright/.local-browsers/

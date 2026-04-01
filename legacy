@@ -1,0 +1,17 @@
+import json
+from parser.pdf_parser import parse_pdf
+from parser.image_tagger import tag_images
+
+pdf_path = r"C:\Users\devra\Downloads\Thermal Images.pdf"
+doc = parse_pdf(pdf_path, "thermal")
+doc = tag_images(doc)
+
+for img in doc.images:
+    print(f"IMAGE: {img.path}")
+    print(f"PAGE: {img.page_number}")
+    print(f"SURROUNDING CONTEXT: {img.surrounding_text.strip()[:200]}")
+    print("-" * 50)
+    
+print("\n--- SAMPLE PAGE TEXT ---")
+print(doc.page_texts.get(1, "No Page 1")[:500])
+print(doc.page_texts.get(2, "No Page 2")[:500])

@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assignment — Detailed Diagnosis Report</title>
+  <style>
+    /* ── Reset & base ──────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #1a1a1a;
+      background: #f0f0f0;
+    }
+
+    /* ── Page wrapper ─────────────────────────────────────────────── */
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #fff;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       COVER PAGE
+    ═══════════════════════════════════════════════════════════════ */
+    .cover {
+      position: relative;
+      min-height: 560px;
+      background: #2b2b2b;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 48px 56px;
+      color: #fff;
+    }
+
+    .cover::before {
+      /* Hexagon-texture overlay approximation */
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(60deg,
+          rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px, transparent 32px),
+        repeating-linear-gradient(-60deg,
+          rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px, transparent 32px);
+    }
+
+    .cover-title {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-decoration: underline;
+      text-decoration-color: #f0c020;
+      text-underline-offset: 6px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 32px;
+    }
+
+    .cover-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-meta-item label {
+      display: block;
+      color: #f0c020;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .cover-meta-item span {
+      font-size: 14px;
+    }
+
+    .cover-logo {
+      position: absolute;
+      bottom: 40px;
+      right: 56px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .cover-logo-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #f0a000, #e06000);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 6px;
+    }
+
+    .cover-logo-text {
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PAGE HEADER (every content page)
+    ═══════════════════════════════════════════════════════════════ */
+    .page-header {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding: 12px 24px;
+      border-bottom: 3px solid #7ec800;
+      background: #fff;
+    }
+
+    .page-header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 20px;
+      border-right: 2px solid #ddd;
+    }
+
+    .header-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #f0a000, #e06000);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .header-logo-text {
+      font-size: 16px;
+      font-weight: 900;
+      color: #1a1a1a;
+    }
+
+    .page-header-title {
+      flex: 1;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .header-report-type {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .header-property {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .header-stripe {
+      width: 60px;
+      background: repeating-linear-gradient(-45deg,
+          #f0c020 0px, #f0c020 6px,
+          #1a1a1a 6px, #1a1a1a 12px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       BODY CONTENT
+    ═══════════════════════════════════════════════════════════════ */
+    .content {
+      padding: 36px 48px;
+    }
+
+    /* Section title (SECTION N  TITLE) */
+    .section-heading {
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 36px 0 6px;
+      padding-bottom: 4px;
+    }
+
+    .section-heading-bar {
+      height: 3px;
+      background: linear-gradient(to right, #7ec800, #f0c020);
+      margin-bottom: 24px;
+      border-radius: 2px;
+    }
+
+    /* Sub-section title (2.1 Client Details) */
+    .subsection-heading {
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      margin: 24px 0 12px;
+      padding-left: 12px;
+      border-left: 4px solid #f0c020;
+    }
+
+    /* ── Info table (site description, client details) ────────────── */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+
+    .info-table td {
+      padding: 10px 14px;
+      border: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+
+    .info-table td:first-child {
+      font-weight: 700;
+      width: 220px;
+      background: #f8f8f8;
+      color: #333;
+    }
+
+    /* ── Area observation card ─────────────────────────────────────── */
+    .area-card {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .area-card-header {
+      background: #2b2b2b;
+      color: #f0c020;
+      padding: 10px 18px;
+      font-weight: 800;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .source-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #f0c020;
+      color: #1a1a1a;
+      text-transform: uppercase;
+    }
+
+    .obs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .obs-col {
+      padding: 14px 18px;
+      border-right: 1px solid #eee;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .obs-col:last-child {
+      border-right: none;
+    }
+
+    .obs-col-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #f0c020;
+    }
+
+    .neg-col {
+      color: #cc3300;
+    }
+
+    .pos-col {
+      color: #2a7700;
+    }
+
+    .obs-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .obs-list li {
+      padding: 5px 0 5px 18px;
+      border-bottom: 1px dashed #f0f0f0;
+      position: relative;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .obs-list li:last-child {
+      border-bottom: none;
+    }
+
+    .obs-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #f0c020;
+    }
+
+    /* ── Criteria & Conditions ────────────────────────────────────── */
+    .criteria-section, .condition-section {
+      padding: 14px 18px;
+      border-top: 1px solid #eee;
+      background: #fff;
+    }
+    .criteria-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      border-left: 3px solid #f0c020;
+      padding-left: 8px;
+    }
+    .criteria-item {
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .criteria-q {
+      font-weight: 700;
+      font-size: 13px;
+      color: #333;
+      margin-bottom: 4px;
+    }
+    .criteria-opts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 12px;
+    }
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #666;
+    }
+    .opt-box {
+      width: 12px;
+      height: 12px;
+      border: 1px solid #aaa;
+      border-radius: 2px;
+      display: inline-block;
+      position: relative;
+    }
+    .opt-selected {
+      color: #1a1a1a;
+      font-weight: 800;
+    }
+    .opt-selected .opt-box {
+      border-color: #f0c020;
+      background: #f0c020;
+    }
+    .opt-selected .opt-box::after {
+      content: '✔';
+      color: #1a1a1a;
+      font-size: 9px;
+      position: absolute;
+      top: -1px;
+      left: 1px;
+    }
+    .cond-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .cond-table th {
+      background: #f8f8f8;
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 2px solid #ddd;
+      color: #555;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    .cond-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+    .cond-table .check-col {
+      text-align: center;
+      width: 80px;
+      font-weight: 800;
+      color: #2a7700;
+    }
+
+    /* ── Image grid ───────────────────────────────────────────────── */
+    .image-section {
+      padding: 14px 18px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+      page-break-before: auto;
+      break-before: auto;
+    }
+
+    .image-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    .image-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .image-wrapper {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+      width: 100%;
+      background: #fff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      margin-bottom: 12px;
+    }
+
+    .image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 240px;
+      object-fit: contain;
+      background: #000;
+    }
+
+    .image-caption {
+      font-size: 10px;
+      color: #666;
+      padding: 6px 8px;
+      background: #f4f4f4;
+      border-top: 1px solid #eee;
+    }
+
+    .image-na {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 200px;
+      height: 80px;
+      border: 2px dashed #ccc;
+      border-radius: 4px;
+      color: #aaa;
+      font-size: 12px;
+      font-weight: 600;
+      background: #fafafa;
+    }
+
+    /* ── Summary table (neg ↔ pos) ────────────────────────────────── */
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .summary-table thead tr {
+      background: #2b2b2b;
+      color: #fff;
+    }
+
+    .summary-table th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .summary-table th.neg {
+      background: #8b1a00;
+    }
+
+    .summary-table th.pos {
+      background: #2a5500;
+    }
+
+    .summary-table th.num {
+      background: #2b2b2b;
+      width: 60px;
+    }
+
+    .summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .summary-table tr:nth-child(even) td {
+      background: #f9f9f9;
+    }
+
+    .summary-table .row-num {
+      font-weight: 800;
+      color: #666;
+      text-align: center;
+    }
+
+    /* ── Severity table ───────────────────────────────────────────── */
+    .sev-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .sev-table th {
+      background: #2b2b2b;
+      color: #f0c020;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .sev-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .sev-table tr:hover td {
+      background: #fffbe6;
+    }
+
+    .sev-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 3px;
+      font-weight: 800;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sev-Low {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .sev-Medium {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .sev-High {
+      background: #ffedd5;
+      color: #9a3412;
+    }
+
+    .sev-Critical {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* ── Action list ──────────────────────────────────────────────── */
+    .action-list {
+      list-style: none;
+      counter-reset: action-counter;
+      margin-bottom: 24px;
+    }
+
+    .action-list li {
+      counter-increment: action-counter;
+      padding: 10px 16px 10px 52px;
+      background: #f8f8f8;
+      border-left: 4px solid #f0c020;
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+      position: relative;
+      font-size: 13px;
+    }
+
+    .action-list li::before {
+      content: counter(action-counter);
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      background: #2b2b2b;
+      color: #f0c020;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    /* ── Text block ───────────────────────────────────────────────── */
+    .text-block {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-left: 4px solid #7ec800;
+      border-radius: 0 4px 4px 0;
+      padding: 16px 20px;
+      font-size: 13.5px;
+      color: #333;
+      margin-bottom: 24px;
+      line-height: 1.8;
+    }
+
+    /* ── Conflict block ───────────────────────────────────────────── */
+    .conflict-block {
+      border: 1px solid #fca5a5;
+      background: #fff5f5;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+
+    .conflict-topic {
+      font-weight: 800;
+      color: #991b1b;
+      margin-bottom: 8px;
+    }
+
+    .conflict-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .conflict-row .label {
+      font-weight: 700;
+      color: #666;
+    }
+
+    /* ── Disclaimer block ─────────────────────────────────────────── */
+    .disclaimer {
+      font-style: italic;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       PAGE FOOTER
+    ═══════════════════════════════════════════════════════════════ */
+    .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 48px;
+      border-top: 1px solid #7ec800;
+      font-size: 11px;
+      color: #555;
+      background: #fff;
+      margin-top: 12px;
+    }
+
+    .page-footer a {
+      color: #2a7700;
+    }
+
+    .page-footer .brand {
+      font-style: italic;
+      font-weight: 700;
+      color: #f0a000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- ═══════════════ COVER PAGE ═══════════════ -->
+    <div class="cover">
+      <div class="cover-title">Detailed Diagnosis Report</div>
+      <div class="cover-meta">
+        <div class="cover-meta-item">
+          <label>Date</label>
+          <span>{{ generated_date }}</span>
+        </div>
+        <div class="cover-meta-item">
+          <label>Report Type</label>
+          <span>IR-, Detailed Diagnosis Report</span>
+        </div>
+        <div class="cover-meta-item">
+          <label>Inspected &amp; Prepared By</label>
+          <span>Assignment Technical Team</span>
+        </div>
+        <div class="cover-meta-item">
+          <label>Prepared For</label>
+          <span>Property Owner</span>
+        </div>
+      </div>
+      <div class="cover-logo">
+        <div class="cover-logo-icon"></div>
+        <div class="cover-logo-text">Assignment</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ CONTENT PAGES ═══════════════ -->
+    <!-- Each section begins with the branded header -->
+
+    <!-- ── SECTION 1: Property Issue Summary (Introduction) ───────── -->
+    <div class="page-header">
+      <div class="page-header-logo">
+        <div class="header-logo-icon"></div>
+        <div class="header-logo-text">Assignment</div>
+      </div>
+      <div class="page-header-title">
+        <div class="header-report-type">IR-, Detailed Diagnosis Report</div>
+        <div class="header-property">Property Inspection Analysis</div>
+      </div>
+      <div class="header-stripe"></div>
+    </div>
+    <div class="content">
+
+      <div class="section-heading">Section 1 &nbsp; Property Issue Summary</div>
+      <div class="section-heading-bar"></div>
+      <div class="text-block">{{ ddr.property_issue_summary }}</div>
+
+      <!-- ── SECTION 2: Area-wise Observations ─────────────────────── -->
+      <div class="section-heading">Section 2 &nbsp; Area-wise Observations</div>
+      <div class="section-heading-bar"></div>
+
+      {% if ddr.area_wise_observations %}
+      {% for area in ddr.area_wise_observations %}
+      <div class="area-card">
+        <div class="area-card-header">
+          {{ area.area_name }}
+          {% if area.data_source and area.data_source != 'Not Available' %}
+          <span class="source-pill">{{ area.data_source }}</span>
+          {% endif %}
+        </div>
+
+        <div class="obs-grid">
+          <!-- Negative side -->
+          <div class="obs-col">
+            <div class="obs-col-title neg-col">▼ Negative Side (Impacted Area)</div>
+            <ul class="obs-list">
+              {% for obs in area.negative_side_observations %}
+              <li>{{ obs }}</li>
+              {% else %}
+              <li>Not Available</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- Positive side -->
+          <div class="obs-col">
+            <div class="obs-col-title pos-col">▲ Positive Side (Source / Exposure)</div>
+            <ul class="obs-list">
+              {% for obs in area.positive_side_observations %}
+              <li>{{ obs }}</li>
+              {% else %}
+              <li>Not Available</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Dynamic Checklists (Field Criteria) -->
+        {% if area.field_criteria %}
+        <div class="criteria-section">
+          <div class="criteria-title">Field Criteria / Input Checklist</div>
+          {% for fc in area.field_criteria %}
+          <div class="criteria-item">
+            <div class="criteria-q">{{ fc.question }}</div>
+            <div class="criteria-opts">
+              {% for opt in fc.options %}
+              <div class="opt {% if opt == fc.selected_option %}opt-selected{% endif %}">
+                <span class="opt-box"></span>
+                <span>{{ opt }}</span>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Dynamic Condition Tables -->
+        {% if area.condition_tables %}
+        <div class="condition-section">
+          <div class="criteria-title">Condition Matrices</div>
+          <table class="cond-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th class="check-col">Good</th>
+                <th class="check-col">Moderate</th>
+                <th class="check-col">Poor</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in area.condition_tables %}
+              <tr>
+                <td>{{ row.parameter }}</td>
+                <td class="check-col">{% if row.good %}✔{% endif %}</td>
+                <td class="check-col">{% if row.moderate %}✔{% endif %}</td>
+                <td class="check-col">{% if row.poor %}✔{% endif %}</td>
+                <td>{{ row.remarks }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+
+        <!-- Images for this area -->
+        <div class="image-section">
+          <div class="image-section-label">📷 Supporting Images</div>
+          {% if area.image_paths %}
+          <div class="obs-grid" style="border-top: 2px solid #ddd; padding-top: 14px;">
+            <!-- Inspection Images Column -->
+            <div class="obs-col" style="padding:0 14px;">
+              <div class="obs-col-title" style="color:#444;">Inspection Images</div>
+              {% set ns_insp = namespace(has_img=false) %}
+              {% for img_path in area.image_paths %}
+              {% if 'inspection' in img_path.lower() %}
+              {% set ns_insp.has_img = true %}
+              <div class="image-wrapper">
+                <img src="{{ img_path }}" />
+                <div class="image-caption">{{ img_path | basename }}</div>
+              </div>
+              {% endif %}
+              {% endfor %}
+              {% if not ns_insp.has_img %}
+              <div class="image-na" style="width:100%;">No inspection images available</div>
+              {% endif %}
+            </div>
+
+            <!-- Thermal Images Column -->
+            <div class="obs-col" style="padding:0 14px;">
+              <div class="obs-col-title" style="color:#004080;">Thermal Images</div>
+              {% set ns_therm = namespace(has_img=false) %}
+              {% for img_path in area.image_paths %}
+              {% if 'thermal' in img_path.lower() %}
+              {% set ns_therm.has_img = true %}
+              <div class="image-wrapper">
+                <img src="{{ img_path }}" />
+                <div class="image-caption">{{ img_path | basename }}</div>
+              </div>
+              {% endif %}
+              {% endfor %}
+              {% if not ns_therm.has_img %}
+              <div class="image-na" style="width:100%;">No thermal images available</div>
+              {% endif %}
+            </div>
+          </div>
+          {% else %}
+          <div class="image-na">📷 Images Not Available</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="text-block">Not Available</div>
+      {% endif %}
+
+      <!-- ── SECTION 3: Probable Root Cause ────────────────────────── -->
+      <div class="section-heading">Section 3 &nbsp; Probable Root Cause</div>
+      <div class="section-heading-bar"></div>
+      <div class="text-block">{{ ddr.probable_root_cause }}</div>
+
+      <!-- ── SECTION 4: Severity Assessment ────────────────────────── -->
+      <div class="section-heading">Section 4 &nbsp; Severity Assessment</div>
+      <div class="section-heading-bar"></div>
+
+      {% if ddr.severity_assessment %}
+      <table class="sev-table">
+        <thead>
+          <tr>
+            <th>Area / Issue</th>
+            <th>Severity</th>
+            <th>Reasoning</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in ddr.severity_assessment %}
+          <tr>
+            <td>{{ item.area }}</td>
+            <td><span class="sev-badge sev-{{ item.severity }}">{{ item.severity }}</span></td>
+            <td>{{ item.reasoning }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="text-block">Not Available</div>
+      {% endif %}
+
+      <!-- ── Summary Table (neg ↔ pos) ─────────────────────────────── -->
+      {% if ddr.summary_table %}
+      <div class="subsection-heading">Summary Table — Impacted Area vs. Source</div>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th class="num">Pt.</th>
+            <th class="neg">Impacted Area (Negative Side)</th>
+            <th class="num">Pt.</th>
+            <th class="pos">Exposed Area (Positive Side)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in ddr.summary_table %}
+          <tr>
+            <td class="row-num">{{ row.point_no }}</td>
+            <td>{{ row.impacted_area_negative_side }}</td>
+            <td class="row-num">{{ row.point_no }}</td>
+            <td>{{ row.exposed_area_positive_side }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+      <!-- ── SECTION 5: Recommended Actions ────────────────────────── -->
+      <div class="section-heading">Section 5 &nbsp; Recommended Actions</div>
+      <div class="section-heading-bar"></div>
+      {% if ddr.recommended_actions %}
+      <ol class="action-list">
+        {% for action in ddr.recommended_actions %}
+        <li>{{ action }}</li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <div class="text-block">Not Available</div>
+      {% endif %}
+
+      <!-- ── SECTION 6: Additional Notes ───────────────────────────── -->
+      <div class="section-heading">Section 6 &nbsp; Additional Notes</div>
+      <div class="section-heading-bar"></div>
+      <div class="text-block">{{ ddr.additional_notes }}</div>
+
+      <!-- ── SECTION 7: Missing or Unclear Information ──────────────── -->
+      <div class="section-heading">Section 7 &nbsp; Missing or Unclear Information</div>
+      <div class="section-heading-bar"></div>
+      <div class="text-block">{{ ddr.missing_or_unclear_info }}</div>
+
+      <!-- ── CONFLICTS (conditional) ───────────────────────────────── -->
+      {% if ddr.conflicts %}
+      <div class="section-heading" style="color:#991b1b;">⚠ Conflicts Between Reports</div>
+      <div class="section-heading-bar"></div>
+      {% for conflict in ddr.conflicts %}
+      <div class="conflict-block">
+        <div class="conflict-topic">{{ conflict.topic }}</div>
+        <div class="conflict-row">
+          <span class="label">Inspection Report:</span>
+          <span>{{ conflict.inspection_says }}</span>
+        </div>
+        <div class="conflict-row">
+          <span class="label">Thermal Report:</span>
+          <span>{{ conflict.thermal_says }}</span>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <!-- ── Limitation & Precaution Note ──────────────────────────── -->
+      <div class="section-heading">Section 8 &nbsp; Limitation &amp; Precaution Note</div>
+      <div class="section-heading-bar"></div>
+      <div class="disclaimer">
+        This property inspection is not an exhaustive inspection of the structure, systems, or components.
+        The inspection may not reveal all deficiencies. A health check helps to reduce some of the risk
+        involved but cannot eliminate these risks, nor can the inspection anticipate future events or
+        changes in performance due to changes in use or occupancy. The inspection of this property is
+        subject to limitations and conditions set out in this Report.
+      </div>
+
+    </div><!-- /.content -->
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <div class="page-footer">
+      <a href="#">www.assignment.com</a>
+      <span class="brand">Assignment Private Limited</span>
+      <span>Generated {{ generated_date }}</span>
+    </div>
+
+  </div><!-- /.page -->
+</body>
+
+</html>
